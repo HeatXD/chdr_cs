@@ -1,7 +1,10 @@
+use std::process::Command;
+
 extern crate bindgen;
 extern crate csbindgen;
 
 fn main() {
+    println!("cargo:rerun-if-changed=thirdparty/libchdr/include/libchdr/chd.h");
     // load chd.h and output rust bindgen to chd.rs
     bindgen::Builder::default()
         .clang_args(&["-I./thirdparty/libchdr/include"])
@@ -18,5 +21,15 @@ fn main() {
         .csharp_entry_point_prefix("cs_")
         .csharp_dll_name("libchdr")
         .generate_to_file("src/chdr_ffi.rs", "gen/chdr.cs")
+        .unwrap();
+    // build the c code with cmake
+    Command::new("cmake")
+        .args(&["-S","thirdparty/libchdr","-B","gen/build"])
+        .status()
+        .unwrap();
+
+    Command::new("cmake")
+        .args(&["--build","gen/build","--config","Release"])
+        .status()
         .unwrap();
 }
