@@ -1,3 +1,6 @@
 /gen
 /target
 /Cargo.lock
+/example/.vs
+/example/bin
+/example/obj
