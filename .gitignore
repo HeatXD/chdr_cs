@@ -1,6 +1,7 @@
-/gen
+gen/build
 /target
 /Cargo.lock
-/example/.vs
-/example/bin
-/example/obj
+example/CHDRTEST/.vs
+example/CHDRTEST/bin
+example/CHDRTEST/obj
+example/CHDRTEST/Properties
